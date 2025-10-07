@@ -7,18 +7,16 @@
 
     <testsuites>
         <testsuite name="Todo Test Suite">
-            <directory suffix="Test.php">backend/tests</directory>
+            <directory suffix="Test.php">tests</directory>
         </testsuite>
     </testsuites>
 
     <coverage processUncoveredFiles="true">
         <include>
-            <directory>backend</directory>
-            <!-- or specific files -->
-            <!-- <file>backend/TodoRepository.php</file> -->
+            <directory>.</directory>
         </include>
         <exclude>
-            <directory>backend/tests</directory>
+            <directory>tests</directory>
         </exclude>
     </coverage>
 
