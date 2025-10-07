@@ -1,5 +1,25 @@
-<filter>
-    <whitelist>
-        <directory suffix=".php">./backend</directory>
-    </whitelist>
-</filter>
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="vendor/autoload.php"
+         colors="true"
+         verbose="true"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd">
+
+    <testsuites>
+        <testsuite name="Todo Test Suite">
+            <directory suffix="Test.php">backend/tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory>backend</directory>
+            <!-- or specific files -->
+            <!-- <file>backend/TodoRepository.php</file> -->
+        </include>
+        <exclude>
+            <directory>backend/tests</directory>
+        </exclude>
+    </coverage>
+
+</phpunit>
