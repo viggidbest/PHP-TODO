@@ -44,7 +44,7 @@ jobs:
 
       # Step 6: Upload PHP test results (JUnit format)
       - name: Upload JUnit Test Report for Backend
-        uses: actions/upload-artifact@v3  # Updated to v3
+        uses: actions/upload-artifact@v4  # Updated to v4
         with:
           name: junit-report-backend
           path: junit-report-backend.xml
@@ -90,7 +90,7 @@ jobs:
 
       # Step 6: Upload frontend test results (JUnit format or Jest output)
       - name: Upload Test Report for Frontend
-        uses: actions/upload-artifact@v3  # Updated to v3
+        uses: actions/upload-artifact@v4  # Updated to v4
         with:
           name: junit-report-frontend
           path: frontend/test-results.xml  # Adjust to match your test result output location (Jest, Vue Test Utils, etc.)
