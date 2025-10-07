@@ -40,7 +40,8 @@ jobs:
       # Step 5: Run backend tests (PHPUnit)
       - name: Run PHP Tests (PHPUnit)
         run: |
-          ./backend/vendor/bin/phpunit --coverage-text --log-junit junit-report-backend.xml --log-cobertura cobertura-report-backend.xml
+          ./backend/vendor/bin/phpunit --coverage-text --coverage-xml coverage-report-backend.xml --log-junit junit-report-backend.xml
+
 
       # Step 6: Upload PHP test results (JUnit format)
       - name: Upload JUnit Test Report for Backend
