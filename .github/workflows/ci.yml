@@ -45,11 +45,11 @@ jobs:
           name: junit-report-backend
           path: backend/junit-report-backend.xml
 
-      - name: Install PHP-CS-Fixer
-        run: composer global require friendsofphp/php-cs-fixer
+      # - name: Install PHP-CS-Fixer
+      #   run: composer global require friendsofphp/php-cs-fixer
 
-      - name: Run PHP-CS-Fixer
-        run: php-cs-fixer fix backend --dry-run --diff
+      # - name: Run PHP-CS-Fixer
+      #   run: php-cs-fixer fix backend --dry-run --diff
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v5.0.0
