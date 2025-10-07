@@ -44,6 +44,18 @@ jobs:
         with:
           name: junit-report-backend
           path: backend/junit-report-backend.xml
+          
+      - name: Run Liquibase migrations (SQLite)
+        working-directory: backend
+        run: |
+          docker run --rm \
+            -v "${{ github.workspace }}/backend:/workspace" \
+            -v "${{ github.workspace }}/db/changelogs:/workspace/changelogs" \
+            liquibase/liquibase \
+            --url="jdbc:sqlite:/workspace/todo.sqlite3" \
+            --changeLogFile=changelogs/db.changelog-master.xml
+            --driver=org.sqlite.JDBC \
+            update
 
       # - name: Install PHP-CS-Fixer
       #   run: composer global require friendsofphp/php-cs-fixer
