@@ -61,7 +61,9 @@ jobs:
             --changeLogFile=changelogs/db.changelog-master.xml \
             --driver=org.sqlite.JDBC \
             --classpath=/workspace/lib/sqlite-jdbc.jar \
+            --search-path=/workspace \
             update
+
 
 
       # - name: Install PHP-CS-Fixer
