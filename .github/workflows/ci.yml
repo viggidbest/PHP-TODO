@@ -51,11 +51,13 @@ jobs:
           docker run --rm \
             -v "${{ github.workspace }}/backend:/workspace" \
             -v "${{ github.workspace }}/db/changelogs:/workspace/changelogs" \
+            -v "${{ github.workspace }}/db/lib/sqlite-jdbc.jar:/liquibase/lib/sqlite-jdbc.jar" \
             liquibase/liquibase \
             update \
             --url="jdbc:sqlite:/workspace/todo.sqlite3" \
             --changeLogFile=changelogs/db.changelog-master.xml \
-            --driver=org.sqlite.JDBC
+            --driver=org.sqlite.JDBC \
+            --classpath=/liquibase/lib/sqlite-jdbc.jar
 
 
       # - name: Install PHP-CS-Fixer
