@@ -22,7 +22,7 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'  # Adjust the PHP version based on your requirements
+          php-version: '8.1'  # Adjust the PHP version based on your requirements
 
       # Step 3: Cache Composer dependencies
       - name: Cache Composer Dependencies
