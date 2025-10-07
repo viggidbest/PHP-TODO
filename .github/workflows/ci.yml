@@ -72,13 +72,13 @@ jobs:
           node-version: '16'  # Adjust to match your Vue.js version
 
       # Step 3: Cache npm dependencies
-      - name: Cache npm Dependencies
-        uses: actions/cache@v2
+      - name: Cache Composer Dependencies
+        uses: actions/cache@v3
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('frontend/package-lock.json') }}
+          path: ~/.composer/cache
+          key: ${{ runner.os }}-composer-${{ hashFiles('backend/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-npm-
+            ${{ runner.os }}-composer-
 
       # Step 4: Install Node.js dependencies (for Vue.js)
       - name: Install Node.js Dependencies
