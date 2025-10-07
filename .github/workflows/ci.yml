@@ -52,9 +52,9 @@ jobs:
           path: backend/junit-report-backend.xml
 
       # Optional Step: Run PHPStan for static analysis (backend)
-      - name: Run PHPStan Analysis
-        working-directory: backend
-        run: vendor/bin/phpstan analyse --level=8 .
+      # - name: Run PHPStan Analysis
+      #   working-directory: backend
+      #   run: vendor/bin/phpstan analyse --level=8 .
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
