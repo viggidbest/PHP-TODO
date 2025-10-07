@@ -44,20 +44,24 @@ jobs:
         with:
           name: junit-report-backend
           path: backend/junit-report-backend.xml
-          
+      - name: Download SQLite JDBC Driver
+        run: |
+          mkdir -p db/lib
+          curl -L -o db/lib/sqlite-jdbc.jar https://repo1.maven.org/maven2/org/xerial/sqlite-jdbc/3.42.0.0/sqlite-jdbc-3.42.0.0.jar
+         
       - name: Run Liquibase migrations (SQLite)
         working-directory: backend
         run: |
           docker run --rm \
             -v "${{ github.workspace }}/backend:/workspace" \
             -v "${{ github.workspace }}/db/changelogs:/workspace/changelogs" \
-            -v "${{ github.workspace }}/db/lib/sqlite-jdbc.jar:/liquibase/lib/sqlite-jdbc.jar" \
+            -v "${{ github.workspace }}/db/lib:/workspace/lib" \
             liquibase/liquibase \
-            update \
             --url="jdbc:sqlite:/workspace/todo.sqlite3" \
-            --changeLogFile=changelogs/db.changelog-master.xml \
+            --changeLogFile=changelogs/changelog.xml \
             --driver=org.sqlite.JDBC \
-            --classpath=/liquibase/lib/sqlite-jdbc.jar
+            --classpath=/workspace/lib/sqlite-jdbc.jar \
+            update
 
 
       # - name: Install PHP-CS-Fixer
