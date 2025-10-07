@@ -67,6 +67,9 @@ jobs:
             -Dsonar.sources=backend
             -Dsonar.tests=backend/tests
             -Dsonar.php.coverage.reportPaths=coverage-report-backend/clover.xml
+            -Dsonar.exclusions=backend/tests/**
+
+      
 
 
       # Optional Step: Run PHP-CS-Fixer for code style checks
