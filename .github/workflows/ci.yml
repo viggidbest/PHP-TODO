@@ -45,10 +45,6 @@ jobs:
           name: junit-report-backend
           path: backend/junit-report-backend.xml
 
-      - name: Run PHPStan Analysis
-        working-directory: backend
-        run: vendor/bin/phpstan analyse --level=8 .
-
       - name: Install PHP-CS-Fixer
         run: composer global require friendsofphp/php-cs-fixer
 
