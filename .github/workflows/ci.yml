@@ -52,10 +52,11 @@ jobs:
             -v "${{ github.workspace }}/backend:/workspace" \
             -v "${{ github.workspace }}/db/changelogs:/workspace/changelogs" \
             liquibase/liquibase \
+            update \
             --url="jdbc:sqlite:/workspace/todo.sqlite3" \
-            --changeLogFile=changelogs/db.changelog-master.xml
-            --driver=org.sqlite.JDBC \
-            update
+            --changeLogFile=changelogs/db.changelog-master.xml \
+            --driver=org.sqlite.JDBC
+
 
       # - name: Install PHP-CS-Fixer
       #   run: composer global require friendsofphp/php-cs-fixer
