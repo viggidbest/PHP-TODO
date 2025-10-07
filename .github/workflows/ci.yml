@@ -26,7 +26,7 @@ jobs:
 
       # Step 3: Cache Composer dependencies
       - name: Cache Composer Dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3  # Updated to v3
         with:
           path: ~/.composer/cache
           key: ${{ runner.os }}-composer-${{ hashFiles('backend/composer.lock') }}
@@ -44,7 +44,7 @@ jobs:
 
       # Step 6: Upload PHP test results (JUnit format)
       - name: Upload JUnit Test Report for Backend
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3  # Updated to v3
         with:
           name: junit-report-backend
           path: junit-report-backend.xml
@@ -72,13 +72,13 @@ jobs:
           node-version: '16'  # Adjust to match your Vue.js version
 
       # Step 3: Cache npm dependencies
-      - name: Cache Composer Dependencies
-        uses: actions/cache@v3
+      - name: Cache npm Dependencies
+        uses: actions/cache@v3  # Updated to v3
         with:
-          path: ~/.composer/cache
-          key: ${{ runner.os }}-composer-${{ hashFiles('backend/composer.lock') }}
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('frontend/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-composer-
+            ${{ runner.os }}-npm-
 
       # Step 4: Install Node.js dependencies (for Vue.js)
       - name: Install Node.js Dependencies
@@ -90,8 +90,7 @@ jobs:
 
       # Step 6: Upload frontend test results (JUnit format or Jest output)
       - name: Upload Test Report for Frontend
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3  # Updated to v3
         with:
           name: junit-report-frontend
           path: frontend/test-results.xml  # Adjust to match your test result output location (Jest, Vue Test Utils, etc.)
-
