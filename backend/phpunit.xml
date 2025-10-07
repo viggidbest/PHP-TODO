@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="vendor/autoload.php" colors="true">
-  <testsuites>
-    <testsuite name="Unit">
-      <directory>tests</directory>
-    </testsuite>
-  </testsuites>
+<phpunit bootstrap="vendor/autoload.php"
+         colors="true"
+         verbose="true">
+
+    <testsuites>
+        <testsuite name="Todo Test Suite">
+            <directory suffix="Test.php">tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <coverage processUncoveredFiles="true">
+        <include>
+            <file>TodoRepository.php</file>
+        </include>
+    </coverage>
 </phpunit>
