@@ -1,51 +1,15 @@
-# PHP + Vue.js TODO App (Sample)
+# PHP + Vue TODO (Governed)
+Includes CI/CD workflows, CODEOWNERS, PR template, and SonarCloud.
 
-A minimal full-stack sample:
-- **Backend:** Plain PHP (PDO + SQLite). Provides CRUD REST API under `/api/todos`.
-- **Frontend:** Vue 3 + Vite. Simple Todo UI.
-- **Tests:** PHPUnit (backend) and Vitest (frontend).
+## Run
+Backend: `cd backend && php -S localhost:8080`
+Frontend: `cd frontend && npm install && npm run dev`
 
-## Quick start
+## Checks
+- unit-tests: PHPUnit + Vitest
+- static-checks: phpstan + phpcs
+- build: Vite build
+- sonar: SonarCloud scan (needs SONAR_TOKEN, sonar-project.properties)
 
-### Backend
-```bash
-cd backend
-php -S localhost:8080
-# database file todo.sqlite3 will be created on first write
-```
-
-### Frontend
-```bash
-cd frontend
-npm install
-npm run dev   # open the printed URL (default http://localhost:5173)
-```
-
-> Make sure backend runs on 8080. The frontend dev server proxies `/api` to `http://localhost:8080`.
-
-### Tests
-
-**Backend (PHPUnit):**
-```bash
-cd backend
-composer install
-./vendor/bin/phpunit
-```
-
-**Frontend (Vitest):**
-```bash
-cd frontend
-npm install
-npm test
-```
-
-## Structure
-- backend/
-  - index.php (router + API)
-  - TodoRepository.php (SQLite operations)
-  - tests/ (PHPUnit tests)
-  - composer.json, phpunit.xml
-- frontend/
-  - index.html, src/
-  - vitest setup and a component test
-  - vite.config.js (proxy `/api` to backend)
+## Branch protection
+`OWNER=your-org REPO=your-repo ./setup-branch-protection.sh`

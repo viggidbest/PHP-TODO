@@ -1,0 +1,4 @@
+* @your-org/maintainers
+/backend/** @your-org/php-team
+/frontend/** @your-org/js-team
+/.github/workflows/** @your-org/devops
