@@ -56,6 +56,19 @@ jobs:
         working-directory: backend
         run: vendor/bin/phpstan analyse --level=8 .
 
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=viggidbest_PHP-TODO
+            -Dsonar.organization=viggidbest
+            -Dsonar.sources=backend
+            -Dsonar.tests=backend/tests
+            -Dsonar.php.coverage.reportPaths=coverage-report-backend/clover.xml
+
+
       # Optional Step: Run PHP-CS-Fixer for code style checks
       - name: Run PHP-CS-Fixer
         working-directory: backend
@@ -98,3 +111,4 @@ jobs:
         with:
           name: junit-report-frontend
           path: frontend/test-results.xml  # Adjust to match your test result output location
+
