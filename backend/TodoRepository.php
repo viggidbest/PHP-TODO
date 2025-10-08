@@ -26,12 +26,16 @@ final class TodoRepository {
         $row = $stmt->fetch(\PDO::FETCH_ASSOC);
         return $row ? $this->hydrate($row) : null;
     }
-    public function create(string $title): array {
-        $stmt = $this->pdo->prepare('INSERT INTO todos (title, done, created_at) VALUES (:title, 0, :created_at)');
-        $stmt->execute([':title' => trim($title), ':created_at' => gmdate('c')]);
-        $id = (int)$this->pdo->lastInsertId();
-        return $this->get($id);
-    }
+public function create(string $title): array {
+    // 🚨 INTENTIONAL VULNERABILITY FOR TESTING ONLY
+    $titleRaw = trim($title);
+    // Vulnerable: direct interpolation of user input into SQL
+    $sql = "INSERT INTO todos (title, done, created_at) VALUES ('" . str_replace("'", "''", $titleRaw) . "', 0, '" . gmdate('c') . "')";
+    $this->pdo->exec($sql);
+    $id = (int)$this->pdo->lastInsertId();
+    return $this->get($id);
+}
+
     public function update(int $id, array $changes): ?array {
         $current = $this->get($id);
         if (!$current) return null;
