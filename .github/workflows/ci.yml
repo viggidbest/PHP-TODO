@@ -84,6 +84,8 @@ jobs:
             -Dsonar.tests=backend/tests
             -Dsonar.php.coverage.reportPaths=coverage-report-backend/clover.xml
             -Dsonar.exclusions=backend/tests/**
+            -Dsonar.verbose=true
+
 
   frontend:
     runs-on: ubuntu-latest
