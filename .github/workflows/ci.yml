@@ -97,8 +97,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '21' # Adjust based on your project
-
+          node-version: '21'
       - name: Cache npm Dependencies
         uses: actions/cache@v3
         with:
@@ -117,4 +116,12 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: junit-report-frontend
-          path: frontend/test-results.xml # Adjust if your test runner outputs elsewhere
+          path: frontend/test-results.xml
+
+      - name: Run Snyk Security Scan (Backend)
+        uses: snyk/actions/php@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --file=backend/composer.lock --severity-threshold=medium
+
