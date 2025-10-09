@@ -64,6 +64,13 @@ jobs:
             --search-path=/workspace \
             update
 
+      - name: Snyk Code Scan
+        working-directory: backend
+        run: snyk code test
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+
 
 
       # - name: Install PHP-CS-Fixer
@@ -85,13 +92,6 @@ jobs:
             -Dsonar.php.coverage.reportPaths=coverage-report-backend/clover.xml
             -Dsonar.exclusions=backend/tests/**
             -Dsonar.verbose=true
-
-      - name: Run Snyk Security Scan (Backend)
-        uses: snyk/actions/php@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --file=backend/composer.lock --severity-threshold=medium
 
 
   frontend:
@@ -118,6 +118,12 @@ jobs:
 
       - name: Run Vue.js Tests
         run: npm run test --prefix frontend
+
+      - name: Snyk Code Scan (Frontend)
+        working-directory: frontend
+        run: snyk code test
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
       - name: Upload Test Report for Frontend
         uses: actions/upload-artifact@v4
