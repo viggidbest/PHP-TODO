@@ -48,6 +48,16 @@ jobs:
         run: |
           mkdir -p db/lib
           curl -L -o db/lib/sqlite-jdbc.jar https://repo1.maven.org/maven2/org/xerial/sqlite-jdbc/3.42.0.0/sqlite-jdbc-3.42.0.0.jar
+
+      - name: Snyk Code Scan
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: code test
+          args: --severity-threshold=medium
+          project: backend
+
          
       - name: Run Liquibase migrations (SQLite)
         working-directory: backend
@@ -64,11 +74,8 @@ jobs:
             --search-path=/workspace \
             update
 
-      - name: Snyk Code Scan
-        working-directory: backend
-        run: snyk code test
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+
 
 
 
@@ -119,7 +126,7 @@ jobs:
       - name: Run Vue.js Tests
         run: npm run test --prefix frontend
 
-      - name: Snyk Code Scan (Frontend)
+      - name: Snyk Code Scan (frontend)
         working-directory: frontend
         run: snyk code test
         env:
