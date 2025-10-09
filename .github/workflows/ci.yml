@@ -37,7 +37,13 @@ jobs:
       - name: Run PHP Tests (PHPUnit)
         working-directory: backend
         run: |
-          ./vendor/bin/phpunit --coverage-text --coverage-clover coverage-report-backend/clover.xml --log-junit junit-report-backend.xml tests
+          ./vendor/bin/phpunit \
+            --coverage-text \
+            --coverage-clover coverage-report-backend/clover.xml \
+            --log-junit junit-report-backend.xml \
+            --fail-on-low-coverage \
+            --coverage-min 80
+            tests
 
       - name: Upload JUnit Test Report for Backend
         uses: actions/upload-artifact@v4
@@ -73,12 +79,6 @@ jobs:
             --classpath=/workspace/lib/sqlite-jdbc.jar \
             --search-path=/workspace \
             update
-
-
-
-
-
-
 
       # - name: Install PHP-CS-Fixer
       #   run: composer global require friendsofphp/php-cs-fixer
