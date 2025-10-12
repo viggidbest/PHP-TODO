@@ -78,18 +78,19 @@ jobs:
             --search-path=/workspace \
             update
 
-      # ✅ Start PHP Server (run API locally)
+      # Start PHP server
       - name: Start PHP Server
         working-directory: backend
         run: |
-          php -S 127.0.0.1:8000 -t public > server.log 2>&1 &
+          php -S 127.0.0.1:8000 -t . > server.log 2>&1 &
           echo "Server started in background."
 
       # ✅ Wait until the server responds
       - name: Wait for Server
+        working-directory: backend
         run: |
           for i in {1..20}; do
-            if curl -sSf http://127.0.0.1:8000/api/todos >/dev/null; then
+            if curl -sSf http://127.0.0.1:8000 >/dev/null; then
               echo "✅ Server is up!"
               exit 0
             fi
@@ -97,7 +98,7 @@ jobs:
             sleep 2
           done
           echo "❌ Server failed to start. Dumping log:"
-          cat backend/server.log
+          cat server.log
           exit 1
 
       # ✅ Run Postman tests (Newman)
