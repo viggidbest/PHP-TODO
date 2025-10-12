@@ -78,16 +78,19 @@ jobs:
             --search-path=/workspace \
             update
 
-      # Start PHP server
+      # ✅ Install Newman
+      - name: Install Newman
+        run: npm install -g newman
+
+      # ✅ Start PHP server
       - name: Start PHP Server
         working-directory: backend
         run: |
-          php -S 127.0.0.1:8000 -t . > server.log 2>&1 &
+          php -S 127.0.0.1:8000 -t public > server.log 2>&1 &
           echo "Server started in background."
 
-      # ✅ Wait until the server responds
+      # ✅ Wait for the server to be ready
       - name: Wait for Server
-        working-directory: backend
         run: |
           for i in {1..20}; do
             if curl -sSf http://127.0.0.1:8000 >/dev/null; then
@@ -101,14 +104,11 @@ jobs:
           cat server.log
           exit 1
 
-      # ✅ Run Postman tests (Newman)
+      # ✅ Run Postman tests with Newman
       - name: Run Postman Tests
-        uses: matt-ball/newman-action@v2.0.0
-        with:
-          collection: backend/tests/postman/todo_api_collection.json
-          reporters: cli,json
-          workingDir: backend
-          args: >
+        run: |
+          newman run backend/tests/postman/todo_api_collection.json \
+            -r cli,json \
             --reporter-json-export backend/newman-results.json
 
       # ✅ Upload Newman JSON report
@@ -117,22 +117,20 @@ jobs:
         with:
           name: newman-report
           path: backend/newman-results.json
-
-          
-                
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@v5.0.0
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.projectKey=viggidbest_PHP-TODO
-            -Dsonar.organization=viggidbest
-            -Dsonar.sources=backend
-            -Dsonar.tests=backend/tests
-            -Dsonar.php.coverage.reportPaths=coverage-report-backend/clover.xml
-            -Dsonar.exclusions=backend/tests/**
-            -Dsonar.verbose=true
+                      
+            - name: SonarCloud Scan
+              uses: SonarSource/sonarqube-scan-action@v5.0.0
+              env:
+                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+              with:
+                args: >
+                  -Dsonar.projectKey=viggidbest_PHP-TODO
+                  -Dsonar.organization=viggidbest
+                  -Dsonar.sources=backend
+                  -Dsonar.tests=backend/tests
+                  -Dsonar.php.coverage.reportPaths=coverage-report-backend/clover.xml
+                  -Dsonar.exclusions=backend/tests/**
+                  -Dsonar.verbose=true
 
   frontend:
     runs-on: ubuntu-latest
