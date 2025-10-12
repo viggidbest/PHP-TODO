@@ -15,12 +15,14 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.1'
+          extensions: sqlite, pdo_sqlite
+          tools: composer
 
       - name: Cache Composer Dependencies
         uses: actions/cache@v3
@@ -37,13 +39,16 @@ jobs:
       - name: Run PHP Tests (PHPUnit)
         working-directory: backend
         run: |
-          ./vendor/bin/phpunit --coverage-text --coverage-clover coverage-report-backend/clover.xml --log-junit junit-report-backend.xml tests
+          ./vendor/bin/phpunit --coverage-text \
+          --coverage-clover coverage-report-backend/clover.xml \
+          --log-junit junit-report-backend.xml tests
 
       - name: Upload JUnit Test Report for Backend
         uses: actions/upload-artifact@v4
         with:
           name: junit-report-backend
           path: backend/junit-report-backend.xml
+
       - name: Download SQLite JDBC Driver
         run: |
           mkdir -p db/lib
@@ -58,7 +63,6 @@ jobs:
           args: --severity-threshold=medium
           project: backend
 
-         
       - name: Run Liquibase migrations (SQLite)
         working-directory: backend
         run: |
@@ -74,11 +78,42 @@ jobs:
             --search-path=/workspace \
             update
 
-      # - name: Install PHP-CS-Fixer
-      #   run: composer global require friendsofphp/php-cs-fixer
+      # ✅ Start PHP Server (run API locally)
+      - name: Start PHP Server
+        working-directory: backend
+        run: |
+          php -S 127.0.0.1:8000 -t public > server.log 2>&1 &
+          echo "Server started in background."
 
-      # - name: Run PHP-CS-Fixer
-      #   run: php-cs-fixer fix backend --dry-run --diff
+      # ✅ Wait until the server responds
+      - name: Wait for Server
+        run: |
+          for i in {1..20}; do
+            if curl -sSf http://127.0.0.1:8000/api/todos >/dev/null; then
+              echo "✅ Server is up!"
+              exit 0
+            fi
+            echo "Waiting for server..."
+            sleep 2
+          done
+          echo "❌ Server failed to start. Dumping log:"
+          cat backend/server.log
+          exit 1
+
+      # ✅ Run Postman tests (Newman)
+      - name: Run Postman Tests
+        uses: matt-ball/newman-action@v1
+        with:
+          collection: backend/tests/postman/todo_api_collection.json
+          reporters: cli,json
+          reporter-json-export: newman-results.json
+
+      # ✅ Upload Newman JSON report
+      - name: Upload Newman Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: newman-report
+          path: newman-results.json
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v5.0.0
@@ -94,18 +129,18 @@ jobs:
             -Dsonar.exclusions=backend/tests/**
             -Dsonar.verbose=true
 
-
   frontend:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '21'
+
       - name: Cache npm Dependencies
         uses: actions/cache@v3
         with:
@@ -129,10 +164,8 @@ jobs:
           args: --severity-threshold=medium
           project: frontend
 
-
       - name: Upload Test Report for Frontend
         uses: actions/upload-artifact@v4
         with:
           name: junit-report-frontend
           path: frontend/test-results.xml
-

@@ -1,0 +1,190 @@
+{
+  "info": {
+    "name": "Todo API Tests",
+    "_postman_id": "d3a53af6-1c6e-4a28-84d0-15e988c0d622",
+    "description": "Automated tests for the PHP Todo API (CRUD operations)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000"
+    }
+  ],
+  "item": [
+    {
+      "name": "GET /api/todos - List all Todos",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/todos",
+          "host": ["{{base_url}}"],
+          "path": ["api", "todos"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Response should be an array', function () {",
+              "  pm.expect(pm.response.json()).to.be.an('array');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST /api/todos - Create Todo",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Test Todo from Postman\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/todos",
+          "host": ["{{base_url}}"],
+          "path": ["api", "todos"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 201', function () {",
+              "  pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test('Response contains ID', function () {",
+              "  var json = pm.response.json();",
+              "  pm.expect(json).to.have.property('id');",
+              "  pm.collectionVariables.set('todo_id', json.id);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /api/todos/:id - Get Todo by ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/todos/{{todo_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "todos", "{{todo_id}}"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Todo title matches', function () {",
+              "  var json = pm.response.json();",
+              "  pm.expect(json.title).to.include('Test Todo');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "PUT /api/todos/:id - Update Todo",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Updated Todo Title\",\n  \"done\": true\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/todos/{{todo_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "todos", "{{todo_id}}"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Todo updated successfully', function () {",
+              "  var json = pm.response.json();",
+              "  pm.expect(json.title).to.eql('Updated Todo Title');",
+              "  pm.expect(json.done).to.eql(true);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "DELETE /api/todos/:id - Delete Todo",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/todos/{{todo_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "todos", "{{todo_id}}"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Todo deleted flag is true', function () {",
+              "  var json = pm.response.json();",
+              "  pm.expect(json.deleted).to.eql(true);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    }
+  ]
+}
