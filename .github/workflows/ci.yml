@@ -107,15 +107,16 @@ jobs:
         with:
           collection: backend/tests/postman/todo_api_collection.json
           reporters: cli,json
-          reporter-json-export: newman-results.json
+          reporter-json-export: backend/newman-results.json  # Save inside backend folder
+          workingDir: backend
 
       # ✅ Upload Newman JSON report
       - name: Upload Newman Report
         uses: actions/upload-artifact@v4
         with:
           name: newman-report
-          path: newman-results.json
-
+          path: backend/newman-results.json
+          
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v5.0.0
         env:
