@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="vendor/autoload.php" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<phpunit bootstrap="vendor/autoload.php"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd">
 
     <testsuites>
@@ -8,14 +9,11 @@
         </testsuite>
     </testsuites>
 
-    <coverage>
-        <include>
-            <file>TodoRepository.php</file>
-        </include>
-        <report>
-            <clover outputFile="coverage-report-backend/clover.xml"/>
-        </report>
-    </coverage>
+    <filter>
+        <whitelist>
+            <directory>./backend</directory> <!-- include all PHP files in backend -->
+        </whitelist>
+    </filter>
 
     <logging>
         <junit outputFile="junit-report-backend.xml"/>
