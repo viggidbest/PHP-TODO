@@ -10,7 +10,7 @@
         </testsuite>
     </testsuites>
 
-    <coverage>
+    <coverage processUncoveredFiles="false">
         <include>
             <directory>.</directory>
         </include>
@@ -22,4 +22,5 @@
     <logging>
         <log type="coverage-clover" target="coverage-report-backend/clover.xml"/>
     </logging>
+
 </phpunit>
