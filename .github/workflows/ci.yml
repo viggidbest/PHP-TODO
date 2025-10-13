@@ -43,7 +43,7 @@ jobs:
           mkdir -p coverage-report-backend
           ./vendor/bin/phpunit \
             --coverage-text \
-            --coverage-clover coverage-report-backend/clover.xml \
+            --coverage-clover coverage-report-backend/clover.xml --stop-on-warning=false
             --log-junit junit-report-backend.xml tests
 
       - name: Upload Backend JUnit Report
