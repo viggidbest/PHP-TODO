@@ -40,7 +40,7 @@ jobs:
 
       - name: Run PHPUnit Tests
         run: |
-          ./backend/vendor/bin/phpunit \
+          ./vendor/bin/phpunit \
             --coverage-clover backend/coverage-report-backend/clover.xml \
             backend/tests
 
