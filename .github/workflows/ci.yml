@@ -43,9 +43,7 @@ jobs:
           mkdir -p coverage-report-backend
           ./vendor/bin/phpunit \
             --coverage-clover coverage-report-backend/clover.xml \
-            --whitelist TodoRepository.php \
             tests
-
       - name: Upload Backend JUnit Report
         uses: actions/upload-artifact@v4
         with:
