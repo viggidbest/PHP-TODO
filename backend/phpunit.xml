@@ -8,17 +8,12 @@
             <directory>tests</directory>
         </testsuite>
     </testsuites>
-
-    <filter>
-        <whitelist>
-            <!-- Include all PHP files in the backend for coverage -->
+    
+    <source>
+        <include>
             <directory suffix=".php">.</directory>
-            <exclude>
-                <directory>tests</directory>
-                <directory>vendor</directory>
-            </exclude>
-        </whitelist>
-    </filter>
+        </include>
+    </source>
 
     <logging>
         <junit outputFile="junit-report-backend.xml"/>
