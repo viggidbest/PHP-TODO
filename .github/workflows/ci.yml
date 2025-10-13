@@ -110,14 +110,14 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.projectKey=viggidbest_PHP-TODO
+            -Dsonar.projectKey=PHP-TODO
             -Dsonar.organization=viggidbest
             -Dsonar.sources=backend
             -Dsonar.tests=backend/tests
             -Dsonar.php.coverage.reportPaths=coverage-report-backend/clover.xml
             -Dsonar.exclusions=backend/tests/**
             -Dsonar.verbose=true
-            
+
       - name: Check Sonar Quality Gate
         uses: SonarSource/sonarqube-quality-gate-action@v1.1.0
         timeout-minutes: 5
