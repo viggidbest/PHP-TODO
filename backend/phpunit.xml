@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="vendor/autoload.php"
-         colors="true"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<phpunit bootstrap="vendor/autoload.php" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd">
-
     <testsuites>
         <testsuite name="Todo Test Suite">
-            <directory suffix="Test.php">tests</directory>
+            <directory>tests</directory>
         </testsuite>
     </testsuites>
 
-    <coverage processUncoveredFiles="false">
-        <include>
-            <directory>.</directory>
-        </include>
-        <exclude>
-            <directory>tests</directory>
-        </exclude>
+    <coverage>
+        <report>
+            <clover outputFile="coverage-report-backend/clover.xml"/>
+        </report>
     </coverage>
 
     <logging>
-        <log type="coverage-clover" target="coverage-report-backend/clover.xml"/>
+        <junit outputFile="junit-report-backend.xml"/>
     </logging>
-
 </phpunit>
