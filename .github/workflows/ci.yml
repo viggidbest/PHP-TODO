@@ -1,28 +1,180 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="vendor/autoload.php"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd">
+name: CI Pipeline
 
-    <testsuites>
-        <testsuite name="Todo Test Suite">
-            <directory>tests</directory>
-        </testsuite>
-    </testsuites>
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
 
-    <coverage>
-        <include>
-            <directory>backend</directory>
-        </include>
-        <exclude>
-            <directory>backend/tests</directory>
-        </exclude>
-        <report>
-            <clover outputFile="coverage-report-backend/clover.xml"/>
-        </report>
-    </coverage>
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    name: Backend CI
 
-    <logging>
-        <junit outputFile="junit-report-backend.xml"/>
-    </logging>
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-</phpunit>
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: sqlite, pdo_sqlite
+          tools: composer
+
+      - name: Cache Composer Dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.composer/cache
+          key: ${{ runner.os }}-composer-${{ hashFiles('backend/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Install PHP Dependencies
+        working-directory: backend
+        run: composer install --no-progress --no-suggest --prefer-dist
+
+      - name: Run PHPUnit Tests
+        working-directory: backend
+        run: |
+          mkdir -p coverage-report-backend
+          ./vendor/bin/phpunit \
+            --coverage-clover coverage-report-backend/clover.xml \
+            --whitelist TodoRepository.php \
+            tests
+
+      - name: Upload Backend JUnit Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-report-backend
+          path: backend/junit-report-backend.xml
+
+      - name: Run Liquibase Migrations (SQLite)
+        working-directory: backend
+        run: |
+          mkdir -p ../db/lib
+          curl -L -o ../db/lib/sqlite-jdbc.jar https://repo1.maven.org/maven2/org/xerial/sqlite-jdbc/3.42.0.0/sqlite-jdbc-3.42.0.0.jar
+
+          docker run --rm \
+            -v "${{ github.workspace }}/backend:/workspace" \
+            -v "${{ github.workspace }}/db/changelogs:/workspace/changelogs" \
+            -v "${{ github.workspace }}/db/lib:/workspace/lib" \
+            liquibase/liquibase \
+            --url="jdbc:sqlite:/workspace/todo.sqlite3" \
+            --changeLogFile=changelogs/db.changelog-master.xml \
+            --driver=org.sqlite.JDBC \
+            --classpath=/workspace/lib/sqlite-jdbc.jar \
+            --search-path=/workspace update
+
+      - name: Start PHP Server
+        working-directory: backend
+        run: |
+          php -S 127.0.0.1:8000 -t . > server.log 2>&1 &
+          echo "Server started in background."
+
+      - name: Wait for Server
+        run: |
+          for i in {1..30}; do
+            if curl -sSf http://127.0.0.1:8000 >/dev/null; then
+              echo "✅ Server is up!"
+              exit 0
+            fi
+            echo "Waiting for server..."
+            sleep 2
+          done
+          echo "❌ Server failed to start. Dumping log:"
+          cat backend/server.log
+          exit 1
+
+      - name: Install Newman (Postman CLI)
+        run: npm install -g newman
+
+      - name: Run Postman Tests
+        run: |
+          newman run backend/tests/postman/todo_api_collection.json \
+            -r cli,json \
+            --reporter-json-export backend/newman-results.json
+
+      - name: Upload Newman Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: newman-report
+          path: backend/newman-results.json
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarqube-scan-action@v5.0.0
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=viggidbest_PHP-TODO
+            -Dsonar.organization=viggidbest
+            -Dsonar.sources=backend
+            -Dsonar.tests=backend/tests
+            -Dsonar.php.coverage.reportPaths=coverage-report-backend/clover.xml
+            -Dsonar.exclusions=backend/tests/**
+            -Dsonar.qualitygate.wait=true
+            -Dsonar.verbose=true
+
+      - name: Check Sonar Quality Gate
+        uses: SonarSource/sonarqube-quality-gate-action@v1.1.0
+        timeout-minutes: 5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: https://sonarcloud.io
+
+
+  frontend:
+    runs-on: ubuntu-latest
+    name: Frontend CI
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '21'
+
+      - name: Cache npm Dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('frontend/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - name: Install Node.js Dependencies
+        run: npm install --prefix frontend
+
+      - name: Run Vue.js Tests
+        run: npm run test --prefix frontend
+
+      - name: Snyk Code Scan (Frontend)
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: code test
+          args: --severity-threshold=medium
+          project: frontend
+
+      - name: Upload Frontend Test Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-report-frontend
+          path: frontend/test-results.xml
+
+
+  deploy_prod:
+    if: github.ref == 'refs/heads/main'
+    needs: [backend, frontend]
+    runs-on: ubuntu-latest
+    name: "Deploy to Production"
+    steps:
+      - name: Deploy Placeholder
+        run: echo "🚀 Deploying PHP-TODO to production…"

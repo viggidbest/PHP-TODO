@@ -9,6 +9,18 @@
         </testsuite>
     </testsuites>
 
+    <coverage>
+        <include>
+            <directory>backend</directory>
+        </include>
+        <exclude>
+            <directory>backend/tests</directory>
+        </exclude>
+        <report>
+            <clover outputFile="coverage-report-backend/clover.xml"/>
+        </report>
+    </coverage>
+
     <logging>
         <junit outputFile="junit-report-backend.xml"/>
     </logging>
