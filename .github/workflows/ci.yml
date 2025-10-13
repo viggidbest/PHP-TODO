@@ -39,12 +39,12 @@ jobs:
         run: composer install --no-progress --no-suggest --prefer-dist
 
       - name: Run PHPUnit Tests
-        working-directory: backend
         run: |
-          mkdir -p coverage-report-backend
-          ./vendor/bin/phpunit \
-            --coverage-clover coverage-report-backend/clover.xml \
-            tests
+          mkdir -p backend/coverage-report-backend
+          ./backend/vendor/bin/phpunit \
+            --coverage-clover backend/coverage-report-backend/clover.xml \
+            backend/tests
+
       - name: Upload Backend JUnit Report
         uses: actions/upload-artifact@v4
         with:
