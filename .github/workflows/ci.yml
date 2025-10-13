@@ -11,10 +11,10 @@
 
     <coverage>
         <include>
-            <directory>./</directory> <!-- the source code directory -->
+            <directory>backend</directory>
         </include>
         <exclude>
-            <directory>tests</directory> <!-- exclude tests -->
+            <directory>backend/tests</directory>
         </exclude>
         <report>
             <clover outputFile="coverage-report-backend/clover.xml"/>
