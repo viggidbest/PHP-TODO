@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit bootstrap="vendor/autoload.php"
          colors="true"
-         verbose="true"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd">
 
@@ -11,7 +10,7 @@
         </testsuite>
     </testsuites>
 
-    <coverage processUncoveredFiles="true">
+    <coverage>
         <include>
             <directory>.</directory>
         </include>
@@ -20,9 +19,7 @@
         </exclude>
     </coverage>
 
-    <!-- Add this logging section -->
     <logging>
         <log type="coverage-clover" target="coverage-report-backend/clover.xml"/>
     </logging>
-
 </phpunit>
