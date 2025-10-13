@@ -9,7 +9,7 @@
         </testsuite>
     </testsuites>
 
-    <coverage>
+    <source>
         <include>
             <directory suffix=".php">.</directory>
         </include>
@@ -17,10 +17,14 @@
             <directory>tests</directory>
             <directory>vendor</directory>
         </exclude>
+    </source>
+    
+    <coverage>
         <report>
             <clover outputFile="coverage-report-backend/clover.xml"/>
         </report>
     </coverage>
+    
     <logging>
         <junit outputFile="junit-report-backend.xml"/>
     </logging>
