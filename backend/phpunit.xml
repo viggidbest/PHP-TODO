@@ -9,12 +9,6 @@
         </testsuite>
     </testsuites>
 
-    <filter>
-        <whitelist>
-            <directory>./backend</directory> <!-- include all PHP files in backend -->
-        </whitelist>
-    </filter>
-
     <logging>
         <junit outputFile="junit-report-backend.xml"/>
     </logging>
