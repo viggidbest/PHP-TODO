@@ -20,4 +20,9 @@
         </exclude>
     </coverage>
 
+    <!-- Add this logging section -->
+    <logging>
+        <log type="coverage-clover" target="coverage-report-backend/clover.xml"/>
+    </logging>
+
 </phpunit>
