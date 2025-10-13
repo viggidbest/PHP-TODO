@@ -9,22 +9,17 @@
         </testsuite>
     </testsuites>
 
-    <source>
-        <include>
+    <filter>
+        <whitelist>
+            <!-- Include all PHP files in the backend for coverage -->
             <directory suffix=".php">.</directory>
-        </include>
-        <exclude>
-            <directory>tests</directory>
-            <directory>vendor</directory>
-        </exclude>
-    </source>
-    
-    <coverage>
-        <report>
-            <clover outputFile="coverage-report-backend/clover.xml"/>
-        </report>
-    </coverage>
-    
+            <exclude>
+                <directory>tests</directory>
+                <directory>vendor</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+
     <logging>
         <junit outputFile="junit-report-backend.xml"/>
     </logging>
