@@ -142,7 +142,7 @@ jobs:
             -Dsonar.projectKey=viggidbest_PHP-TODO
             -Dsonar.organization=viggidbest
             -Dsonar.sources=frontend/src
-            -Dsonar.tests=frontend/src
+            -Dsonar.tests=frontend/tests
             -Dsonar.javascript.lcov.reportPaths=frontend/coverage/lcov.info
             -Dsonar.exclusions=frontend/src/**/*.test.js,frontend/src/**/*.spec.js
             -Dsonar.qualitygate.wait=true
