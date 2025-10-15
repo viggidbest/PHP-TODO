@@ -5,3 +5,9 @@ describe('Dummy test suite', () => {
     expect(true).toBe(true)
   })
 })
+
+describe('Intentional failure test', () => {
+  it('should fail on purpose', () => {
+    expect(true).toBe(false) // ❌ This will always fail
+  })
+})
