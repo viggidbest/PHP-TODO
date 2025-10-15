@@ -101,7 +101,14 @@ final class TodoRepositoryTest extends TestCase
         $this->assertIsString($hydrated['created_at']);
     }
 
-        // public function testThisShouldFail(): void
+ // Php lint Test
+    public function testIntentionalLintFail(): void
+    {
+        $x = 5  // <-- missing semicolon
+    }
+
+// Test case fail check
+    // public function testThisShouldFail(): void
     // {
     //     // This test is designed to fail on purpose
     //     $expected = 42;
