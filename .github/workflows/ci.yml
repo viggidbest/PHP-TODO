@@ -173,6 +173,11 @@ jobs:
 
       - name: Install Node.js Dependencies
         run: npm install --prefix frontend
+      
+      - name: Install Frontend Dependencies
+        run: |
+          cd frontend
+          npm ci
 
       - name: Run Vue.js Tests
         run: npm run test --prefix frontend
