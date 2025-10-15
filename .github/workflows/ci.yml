@@ -61,6 +61,12 @@ jobs:
       - name: Install PHP Dependencies
         working-directory: backend
         run: composer install --no-progress --no-suggest --prefer-dist
+      
+      - name: PHP Lint
+        run: |
+          echo "Running PHP lint..."
+          # Recursively lint all PHP files in the backend folder
+          find backend -name "*.php" -print0 | xargs -0 -n1 php -l
 
       - name: Run PHPUnit Tests
         working-directory: backend
