@@ -203,7 +203,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.projectKey=viggidbest_PHP-TODO-frontend
+            -Dsonar.projectKey=viggidbest_PHP-TODO
             -Dsonar.organization=viggidbest
             -Dsonar.sources=frontend/src
             -Dsonar.tests=frontend/tests
