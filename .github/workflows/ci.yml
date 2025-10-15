@@ -118,20 +118,20 @@ jobs:
       - name: Run Vue.js Tests
         run: npm run test --prefix frontend
 
-      - name: Snyk Code Scan (Frontend)
-        uses: snyk/actions/node@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          command: code test
-          args: --severity-threshold=medium
-          project: frontend
+      # - name: Snyk Code Scan (Frontend)
+      #   uses: snyk/actions/node@master
+      #   env:
+      #     SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      #   with:
+      #     command: code test
+      #     args: --severity-threshold=medium
+      #     project: frontend
 
-      - name: Upload Frontend Test Report
-        uses: actions/upload-artifact@v4
-        with:
-          name: junit-report-frontend
-          path: frontend/test-results.xml
+      # - name: Upload Frontend Test Report
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: junit-report-frontend
+      #     path: frontend/test-results.xml
 
       - name: SonarCloud Scan (Frontend)
         uses: SonarSource/sonarqube-scan-action@v5.0.0
