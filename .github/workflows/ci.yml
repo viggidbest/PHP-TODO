@@ -143,11 +143,12 @@ jobs:
             -Dsonar.organization=viggidbest
             -Dsonar.sources=frontend/src
             -Dsonar.tests=frontend/tests
+            -Dsonar.test.inclusions=frontend/tests/**/*.test.js,frontend/tests/**/*.spec.js
+            -Dsonar.exclusions=frontend/src/**/*.test.js,frontend/src/**/*.spec.js,frontend/tests/**
             -Dsonar.javascript.lcov.reportPaths=frontend/coverage/lcov.info
-            -Dsonar.exclusions=frontend/src/**/*.test.js,frontend/src/**/*.spec.js
             -Dsonar.qualitygate.wait=true
             -Dsonar.verbose=true
-
+            
       - name: Check Sonar Quality Gate (Frontend)
         uses: SonarSource/sonarqube-quality-gate-action@v1.1.0
         timeout-minutes: 5
