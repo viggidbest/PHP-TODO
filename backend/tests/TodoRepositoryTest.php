@@ -102,10 +102,10 @@ final class TodoRepositoryTest extends TestCase
     }
 
  // Php lint Test
-    public function testIntentionalLintFail(): void
-    {
-        $x = 5  // <-- missing semicolon
-    }
+    // public function testIntentionalLintFail(): void
+    // {
+    //     $x = 5  // <-- missing semicolon
+    // }
 
 // Test case fail check
     // public function testThisShouldFail(): void
