@@ -67,10 +67,4 @@ describe("App.vue TODO App", () => {
     const span = wrapper.find("span");
     expect(span.element.style.textDecoration).toBe("line-through");
   });
-
-  // describe("Intentional Failure Test", () => {
-  //   test("this test always fails", () => {
-  //     expect(1 + 1).toBe(3); // fails on purpose
-  //   });
-  // });
 });
