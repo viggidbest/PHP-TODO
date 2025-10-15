@@ -1,17 +1,22 @@
 import { mount } from "@vue/test-utils";
 import App from "../src/App.vue";
 import axios from "axios";
-import MockAdapter from "axios-mock-adapter";
+import { vi } from "vitest";
+
+// Mock axios globally
+vi.mock("axios", () => ({
+  default: {
+    get: vi.fn(),
+    post: vi.fn(),
+    put: vi.fn(),
+    delete: vi.fn(),
+  },
+}));
 
 describe("App.vue TODO App", () => {
-  let mock;
-
   beforeEach(() => {
-    mock = new MockAdapter(axios);
-  });
-
-  afterEach(() => {
-    mock.restore();
+    // Reset all mock calls before each test
+    vi.clearAllMocks();
   });
 
   test("renders header and input", () => {
@@ -23,9 +28,10 @@ describe("App.vue TODO App", () => {
 
   test("loads todos on mount", async () => {
     const todosData = [{ id: 1, title: "Test task", done: false }];
-    mock.onGet("/api/todos").reply(200, todosData);
+    axios.get.mockResolvedValueOnce({ data: todosData });
 
     const wrapper = mount(App);
+    // Wait for onMounted API call
     await new Promise((r) => setTimeout(r, 0));
 
     const items = wrapper.findAll("li");
@@ -34,9 +40,10 @@ describe("App.vue TODO App", () => {
   });
 
   test("adds a new todo", async () => {
-    mock
-      .onPost("/api/todos")
-      .reply(201, { id: 2, title: "New Task", done: false });
+    axios.post.mockResolvedValueOnce({
+      data: { id: 2, title: "New Task", done: false },
+    });
+
     const wrapper = mount(App);
     const input = wrapper.find("input");
     await input.setValue("New Task");
@@ -54,8 +61,8 @@ describe("App.vue TODO App", () => {
 
   test("toggles a todo", async () => {
     const todo = { id: 1, title: "Toggle Task", done: false };
-    mock.onGet("/api/todos").reply(200, [todo]);
-    mock.onPut(`/api/todos/1`).reply(200, { ...todo, done: true });
+    axios.get.mockResolvedValueOnce({ data: [todo] });
+    axios.put.mockResolvedValueOnce({ data: { ...todo, done: true } });
 
     const wrapper = mount(App);
     await new Promise((r) => setTimeout(r, 0));
@@ -66,5 +73,10 @@ describe("App.vue TODO App", () => {
 
     const span = wrapper.find("span");
     expect(span.element.style.textDecoration).toBe("line-through");
+  });
+
+  // Intentional failing test for CI verification
+  test("intentional failure test", () => {
+    expect(1 + 1).toBe(3); // always fails
   });
 });
