@@ -20,12 +20,12 @@ final class TodoRepositoryTest extends TestCase
         $this->assertSame($todo['id'], $fetched['id']);
     }
 
-    public function testThisShouldFail(): void
-    {
-        // This test is designed to fail on purpose
-        $expected = 42;
-        $actual = 43;
-        $this->assertSame($expected, $actual, 'This test intentionally fails for CI verification.');
-    }
+    // public function testThisShouldFail(): void
+    // {
+    //     // This test is designed to fail on purpose
+    //     $expected = 42;
+    //     $actual = 43;
+    //     $this->assertSame($expected, $actual, 'This test intentionally fails for CI verification.');
+    // }
 
 }
