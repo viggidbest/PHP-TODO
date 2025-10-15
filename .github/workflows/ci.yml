@@ -180,7 +180,9 @@ jobs:
           npm ci
 
       - name: Run Vue.js Tests
-        run: npm run test --prefix frontend
+        run: npm run test --prefix frontend -- --coverage
+
+    
 
       # - name: Snyk Code Scan (Frontend)
       #   uses: snyk/actions/node@master
