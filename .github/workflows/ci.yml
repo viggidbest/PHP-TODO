@@ -68,6 +68,23 @@ jobs:
           mkdir -p coverage-report-backend
           ./vendor/bin/phpunit --coverage-clover coverage-report-backend/clover.xml tests
 
+      - name: Run Liquibase Migrations (SQLite)
+        working-directory: backend
+        run: |
+          mkdir -p ../db/lib
+          curl -L -o ../db/lib/sqlite-jdbc.jar https://repo1.maven.org/maven2/org/xerial/sqlite-jdbc/3.42.0.0/sqlite-jdbc-3.42.0.0.jar
+
+          docker run --rm \
+            -v "${{ github.workspace }}/backend:/workspace" \
+            -v "${{ github.workspace }}/db/changelogs:/workspace/changelogs" \
+            -v "${{ github.workspace }}/db/lib:/workspace/lib" \
+            liquibase/liquibase \
+            --url="jdbc:sqlite:/workspace/todo.sqlite3" \
+            --changeLogFile=changelogs/db.changelog-master.xml \
+            --driver=org.sqlite.JDBC \
+            --classpath=/workspace/lib/sqlite-jdbc.jar \
+            --search-path=/workspace update
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v5.0.0
         env:
