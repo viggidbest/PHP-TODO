@@ -1,7 +1,13 @@
-import { createApp } from 'vue'
+import { mount } from '@vue/test-utils'
 import App from './App.vue'
 
-createApp(App).mount('#app')
+// ❌ Existing test (optional to keep)
+// test('renders app', () => {
+//   const wrapper = mount(App)
+//   expect(wrapper.exists()).toBe(true)
+// })
 
-// ❌ ESLint will fail: unused variable
-const unusedVariable = 123
+// 🔴 Intentional failing test
+test('force pre-commit hook failure', () => {
+  expect(true).toBe(false)  // This will always fail
+})
