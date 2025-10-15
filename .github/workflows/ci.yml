@@ -133,6 +133,29 @@ jobs:
           name: junit-report-frontend
           path: frontend/test-results.xml
 
+      - name: SonarCloud Scan (Frontend)
+        uses: SonarSource/sonarqube-scan-action@v5.0.0
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=viggidbest_Frontend-TODO
+            -Dsonar.organization=viggidbest
+            -Dsonar.sources=frontend/src
+            -Dsonar.tests=frontend/src
+            -Dsonar.javascript.lcov.reportPaths=frontend/coverage/lcov.info
+            -Dsonar.exclusions=frontend/src/**/*.test.js,frontend/src/**/*.spec.js
+            -Dsonar.qualitygate.wait=true
+            -Dsonar.verbose=true
+
+      - name: Check Sonar Quality Gate (Frontend)
+        uses: SonarSource/sonarqube-quality-gate-action@v1.1.0
+        timeout-minutes: 5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: https://sonarcloud.io
+
+
   deploy_prod:
     if: github.ref == 'refs/heads/main'
     needs: [backend, frontend]
