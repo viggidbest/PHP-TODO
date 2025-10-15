@@ -4,10 +4,12 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   plugins: [vue()],
   test: {
-    environment: 'jsdom',
+    environment: 'jsdom', // ✅ browser-like environment
+    globals: true,         // ✅ enables describe/test/expect globally
     coverage: {
-      reporter: ['text', 'lcov', 'html'], // text summary + LCOV + HTML report
-      reportsDirectory: './coverage',     // output folder
+      provider: 'v8',
+      reportsDirectory: './coverage',
+      reporter: ['text', 'lcov'],
     },
   },
 })
