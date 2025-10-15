@@ -1,4 +1,4 @@
-<!-- <?php
+<?php
 declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 require_once __DIR__ . '/../TodoRepository.php';
@@ -24,4 +24,12 @@ final class TodoRepositoryTest extends TestCase {
         $this->assertTrue($this->repo->delete($todo['id']));
         $this->assertNull($this->repo->get($todo['id']));
     }
-} -->
+    public function testUpdateAndDelete1(): void {
+        $todo = $this->repo->create('A');
+        $updated = $this->repo->update($todo['id'], ['title' => 'B', 'done' => true]);
+        $this->assertSame('B', $updated['title']);
+        $this->assertTrue($updated['done']);
+        $this->assertTrue($this->repo->delete($todo['id']));
+        $this->assertNull($this->repo->get($todo['id']));
+    }
+}
