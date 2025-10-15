@@ -79,10 +79,9 @@ jobs:
             -Dsonar.sources=backend
             -Dsonar.tests=backend/tests
             -Dsonar.php.coverage.reportPaths=backend/coverage-report-backend/clover.xml
-            -Dsonar.exclusions=backend/tests/postman/**/*.json
+            -Dsonar.exclusions=backend/tests/**
             -Dsonar.qualitygate.wait=true
             -Dsonar.verbose=true
-
       - name: Check Sonar Quality Gate
         uses: SonarSource/sonarqube-quality-gate-action@v1.1.0
         timeout-minutes: 5
