@@ -3,7 +3,7 @@ import App from "../src/App.vue";
 import axios from "axios";
 import { vi } from "vitest";
 
-// Mock axios globally
+// ✅ Mock axios globally
 vi.mock("axios", () => ({
   default: {
     get: vi.fn(),
@@ -17,6 +17,9 @@ describe("App.vue TODO App", () => {
   beforeEach(() => {
     // Reset all mock calls before each test
     vi.clearAllMocks();
+
+    // ✅ Common mock for GET /api/todos on mount
+    axios.get.mockResolvedValue({ data: [] });
   });
 
   test("renders header and input", () => {
@@ -46,6 +49,7 @@ describe("App.vue TODO App", () => {
 
     const wrapper = mount(App);
     const input = wrapper.find("input");
+
     await input.setValue("New Task");
     await wrapper.find("form").trigger("submit.prevent");
     await new Promise((r) => setTimeout(r, 0));
@@ -61,6 +65,7 @@ describe("App.vue TODO App", () => {
 
   test("toggles a todo", async () => {
     const todo = { id: 1, title: "Toggle Task", done: false };
+
     axios.get.mockResolvedValueOnce({ data: [todo] });
     axios.put.mockResolvedValueOnce({ data: { ...todo, done: true } });
 
@@ -75,8 +80,8 @@ describe("App.vue TODO App", () => {
     expect(span.element.style.textDecoration).toBe("line-through");
   });
 
-  // // Intentional failing test for CI verification
+  // ✅ Uncomment this block if you want your CI pipeline to intentionally fail
   // test("intentional failure test", () => {
-  //   expect(1 + 1).toBe(3); // always fails
+  //   expect(1 + 1).toBe(3); // This will always fail
   // });
 });
