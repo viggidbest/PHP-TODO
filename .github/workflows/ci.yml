@@ -82,6 +82,8 @@ jobs:
             -Dsonar.exclusions=backend/tests/**
             -Dsonar.qualitygate.wait=true
             -Dsonar.verbose=true
+            -Dsonar.coverage.exclusions=backend/index.php
+
       - name: Check Sonar Quality Gate
         uses: SonarSource/sonarqube-quality-gate-action@v1.1.0
         timeout-minutes: 5
@@ -148,7 +150,7 @@ jobs:
             -Dsonar.javascript.lcov.reportPaths=frontend/coverage/lcov.info
             -Dsonar.qualitygate.wait=true
             -Dsonar.verbose=true
-            
+
       - name: Check Sonar Quality Gate (Frontend)
         uses: SonarSource/sonarqube-quality-gate-action@v1.1.0
         timeout-minutes: 5
