@@ -207,8 +207,8 @@ jobs:
             -Dsonar.organization=viggidbest
             -Dsonar.sources=frontend/src
             -Dsonar.tests=frontend/tests
-            -Dsonar.test.inclusions=frontend/tests/**/*.test.js,frontend/tests/**/*.spec.js
-            -Dsonar.exclusions=frontend/src/**/*.test.js,frontend/src/**/*.spec.js,frontend/tests/**
+            -Dsonar.test.inclusions=frontend/tests/**/*.spec.js,frontend/tests/**/*.test.js
+            -Dsonar.exclusions=frontend/tests/**
             -Dsonar.javascript.lcov.reportPaths=frontend/coverage/lcov.info
             -Dsonar.qualitygate.wait=true
             -Dsonar.verbose=true
