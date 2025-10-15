@@ -65,8 +65,8 @@ jobs:
       - name: PHP Lint
         run: |
           echo "Running PHP lint..."
-          # Recursively lint all PHP files in the backend folder
-          find backend -name "*.php" -print0 | xargs -0 -n1 php -l
+          # Lint only your source code, ignoring vendor
+          find backend -path "backend/vendor" -prune -o -name "*.php" -print0 | xargs -0 -n1 php -l
 
       - name: Run PHPUnit Tests
         working-directory: backend
