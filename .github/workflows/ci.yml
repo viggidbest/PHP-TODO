@@ -203,13 +203,13 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.projectKey=viggidbest_PHP-TODO
+            -Dsonar.projectKey=viggidbest_PHP-TODO-frontend
             -Dsonar.organization=viggidbest
             -Dsonar.sources=frontend/src
             -Dsonar.tests=frontend/tests
             -Dsonar.test.inclusions=frontend/tests/**/*.spec.js,frontend/tests/**/*.test.js
-            -Dsonar.exclusions=frontend/tests/**
             -Dsonar.javascript.lcov.reportPaths=frontend/coverage/lcov.info
+            -Dsonar.exclusions=frontend/node_modules/**,frontend/dist/**,frontend/coverage/**,frontend/tests/**,frontend/vite.config.js,frontend/vitest.config.js
             -Dsonar.qualitygate.wait=true
             -Dsonar.verbose=true
 

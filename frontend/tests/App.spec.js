@@ -80,7 +80,7 @@ describe("App.vue TODO App", () => {
     expect(span.element.style.textDecoration).toBe("line-through");
   });
 
-  // ✅ Uncomment this block if you want your CI pipeline to intentionally fail
+  //  This block to fail the pipeline
   // test("intentional failure test", () => {
   //   expect(1 + 1).toBe(3); // This will always fail
   // });
