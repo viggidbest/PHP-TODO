@@ -84,6 +84,40 @@ jobs:
             --driver=org.sqlite.JDBC \
             --classpath=/workspace/lib/sqlite-jdbc.jar \
             --search-path=/workspace update
+      - name: Start PHP Server
+        working-directory: backend
+        run: |
+          php -S 127.0.0.1:8000 -t . > server.log 2>&1 &
+          echo "Server started in background."
+
+      - name: Wait for Server
+        run: |
+          for i in {1..30}; do
+            if curl -sSf http://127.0.0.1:8000 >/dev/null; then
+              echo "✅ Server is up!"
+              exit 0
+            fi
+            echo "Waiting for server..."
+            sleep 2
+          done
+          echo "❌ Server failed to start. Dumping log:"
+          cat backend/server.log
+          exit 1
+
+      - name: Install Newman (Postman CLI)
+        run: npm install -g newman
+
+      - name: Run Postman Tests
+        run: |
+          newman run backend/tests/postman/todo_api_collection.json \
+            -r cli,json \
+            --reporter-json-export backend/newman-results.json
+
+      - name: Upload Newman Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: newman-report
+          path: backend/newman-results.json
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v5.0.0
