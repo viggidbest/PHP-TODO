@@ -75,8 +75,8 @@ describe("App.vue TODO App", () => {
     expect(span.element.style.textDecoration).toBe("line-through");
   });
 
-  // Intentional failing test for CI verification
-  test("intentional failure test", () => {
-    expect(1 + 1).toBe(3); // always fails
-  });
+  // // Intentional failing test for CI verification
+  // test("intentional failure test", () => {
+  //   expect(1 + 1).toBe(3); // always fails
+  // });
 });
