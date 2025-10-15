@@ -5,6 +5,7 @@ export default defineConfig({
   plugins: [vue()],
   test: {
     globals: true,        // <-- enable describe, test, expect
-    environment: 'jsdom', // <-- browser-like environment needed for Vue components
+    environment: 'jsdom',
+     // <-- browser-like environment needed for Vue components
   },
 })
