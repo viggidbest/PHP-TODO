@@ -180,24 +180,16 @@ jobs:
           cd frontend
           npm ci
 
-      - name: Run Vue.js Tests
+      - name: Run Tests with Coverage
         run: npm run test --prefix frontend -- --coverage
 
-    
-      - name: Install Snyk CLI
-        run: npm install -g snyk
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      - name: Check Coverage Threshold
+        run: node ./frontend/check-coverage.js
 
-      - name: Snyk Code Scan (Frontend)
-        run: |
-          cd frontend/src
-          snyk test --severity-threshold=medium
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      - name: Run StandardJS Lint
+        run: npm run lint --prefix frontend
 
-
-
+        
       # - name: Upload Frontend Test Report
       #   uses: actions/upload-artifact@v4
       #   with:
