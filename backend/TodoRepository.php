@@ -6,8 +6,9 @@ final class TodoRepository {
         $this->pdo = new \PDO('sqlite:' . $dbFile);
         $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         $this->migrate();
+        
     }
-    
+
     private function migrate(): void {
         $this->pdo->exec('CREATE TABLE IF NOT EXISTS todos (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
