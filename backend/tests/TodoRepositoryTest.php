@@ -63,7 +63,7 @@ final class TodoRepositoryTest extends TestCase
         $this->assertNull($result);
     }
 
-    /*public function testDeleteRemovesTodo(): void
+    public function testDeleteRemovesTodo(): void
     {
         $todo = $this->repo->create('To delete');
         $this->assertNotNull($this->repo->get($todo['id']));
@@ -80,7 +80,7 @@ final class TodoRepositoryTest extends TestCase
         // SQLite's execute() returns true even if no rows affected
         $result = $this->repo->delete(12345);
         $this->assertTrue($result);
-    }*/
+    }
 
     public function testHydrateCastsFieldsCorrectly(): void
     {
