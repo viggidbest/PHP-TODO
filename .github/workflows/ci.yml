@@ -184,6 +184,10 @@ jobs:
         run: npm run test --prefix frontend -- --coverage
 
     
+      - name: Install Snyk CLI
+        run: npm install -g snyk
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
       - name: Snyk Code Scan (Frontend)
         run: |
@@ -191,6 +195,7 @@ jobs:
           snyk test --severity-threshold=medium
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
 
 
       # - name: Upload Frontend Test Report
