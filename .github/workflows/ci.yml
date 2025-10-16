@@ -182,7 +182,8 @@ jobs:
         run: ls -la ./frontend/coverage/
 
       - name: Check Coverage Threshold
-        run: node ./frontend/check-coverage.js
+        working-directory: frontend
+        run: node check-coverage.js
 
       - name: Run StandardJS Lint
         run: npm run lint --prefix frontend
