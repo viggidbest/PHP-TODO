@@ -172,8 +172,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-npm-
 
-      - name: Install Node.js Dependencies
-        run: npm install --prefix frontend
+      # - name: Install Node.js Dependencies
+      #   run: npm install --prefix frontend
       
       - name: Install Frontend Dependencies
         run: |
