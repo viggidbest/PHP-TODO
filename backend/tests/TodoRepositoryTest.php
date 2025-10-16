@@ -100,7 +100,7 @@ final class TodoRepositoryTest extends TestCase
         $this->assertIsString($hydrated['title']);
         $this->assertIsBool($hydrated['done']);
         $this->assertIsString($hydrated['created_at']);
-    }
+    } 
 
 
  // Php lint Test
@@ -110,11 +110,11 @@ final class TodoRepositoryTest extends TestCase
     // }
 
 //Test case fail check
-    // public function testThatFails(): void
-    // {
-    //     // This test is designed to fail on purpose
-    //     $expected = 42;
-    //     $actual = 43;
-    //     $this->assertSame($expected, $actual, 'This test intentionally fails for CI verification.');
-    // }
+   /*public function testThatFails(): void
+    {
+        // This test is designed to fail on purpose
+        $expected = 42;
+        $actual = 43;
+        $this->assertSame($expected, $actual, 'This test intentionally fails for CI verification.');
+    } */
 }
