@@ -136,7 +136,7 @@ jobs:
             -Dsonar.sources=backend
             -Dsonar.tests=backend/tests
             -Dsonar.php.coverage.reportPaths=backend/coverage-report-backend/clover.xml
-            -Dsonar.exclusions=backend/tests/**,backend/coverage-html/**
+            -Dsonar.exclusions=backend/tests/**,backend/coverage-html/**,backend/vendor/**
             -Dsonar.coverage.exclusions=backend/index.php,backend/coverage-html/**,backend/coverage-html/_js/**
             -Dsonar.qualitygate.wait=true
             -Dsonar.verbose=true
