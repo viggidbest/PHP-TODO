@@ -136,10 +136,11 @@ jobs:
             -Dsonar.sources=backend
             -Dsonar.tests=backend/tests
             -Dsonar.php.coverage.reportPaths=backend/coverage-report-backend/clover.xml
-            -Dsonar.exclusions=backend/tests/**
+            -Dsonar.exclusions=backend/tests/**,backend/coverage-html/**
+            -Dsonar.coverage.exclusions=backend/index.php,backend/coverage-html/**,backend/coverage-html/_js/**
             -Dsonar.qualitygate.wait=true
             -Dsonar.verbose=true
-            -Dsonar.coverage.exclusions=backend/index.php
+
 
       - name: Check Sonar Quality Gate
         uses: SonarSource/sonarqube-quality-gate-action@v1.1.0
