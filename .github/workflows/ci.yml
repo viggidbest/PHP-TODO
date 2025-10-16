@@ -172,13 +172,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-npm-
 
-      # - name: Install Node.js Dependencies
-      #   run: npm install --prefix frontend
+      - name: Install Node.js Dependencies
+        run: npm install --prefix frontend
       
-      - name: Install Frontend Dependencies
-        run: |
-          cd frontend
-          npm ci
+      # - name: Install Frontend Dependencies
+      #   run: |
+      #     cd frontend
+      #     npm ci
 
       - name: Run Tests with Coverage
         run: npm run test --prefix frontend -- --coverage
