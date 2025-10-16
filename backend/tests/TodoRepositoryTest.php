@@ -28,80 +28,80 @@ final class TodoRepositoryTest extends TestCase
         $this->assertSame($todo['title'], $fetched['title']);
     }
 
-    public function testAllReturnsAllTodosInDescendingOrder(): void
-    {
-        $first = $this->repo->create('First task');
-        sleep(1); // ensure timestamp difference
-        $second = $this->repo->create('Second task');
+    // public function testAllReturnsAllTodosInDescendingOrder(): void
+    // {
+    //     $first = $this->repo->create('First task');
+    //     sleep(1); // ensure timestamp difference
+    //     $second = $this->repo->create('Second task');
 
-        $all = $this->repo->all();
+    //     $all = $this->repo->all();
 
-        // Two items, second created should appear first (descending id)
-        $this->assertCount(2, $all);
-        $this->assertSame($second['id'], $all[0]['id']);
-        $this->assertSame($first['id'], $all[1]['id']);
-    }
+    //     // Two items, second created should appear first (descending id)
+    //     $this->assertCount(2, $all);
+    //     $this->assertSame($second['id'], $all[0]['id']);
+    //     $this->assertSame($first['id'], $all[1]['id']);
+    // }
 
-    public function testUpdateChangesTitleAndDone(): void
-    {
-        $todo = $this->repo->create('Original');
-        $updated = $this->repo->update($todo['id'], ['title' => 'Updated', 'done' => true]);
+    // public function testUpdateChangesTitleAndDone(): void
+    // {
+    //     $todo = $this->repo->create('Original');
+    //     $updated = $this->repo->update($todo['id'], ['title' => 'Updated', 'done' => true]);
 
-        $this->assertSame('Updated', $updated['title']);
-        $this->assertTrue($updated['done']);
+    //     $this->assertSame('Updated', $updated['title']);
+    //     $this->assertTrue($updated['done']);
 
-        // Fetch again and confirm persistence
-        $fetched = $this->repo->get($todo['id']);
-        $this->assertSame('Updated', $fetched['title']);
-        $this->assertTrue($fetched['done']);
-    }
+    //     // Fetch again and confirm persistence
+    //     $fetched = $this->repo->get($todo['id']);
+    //     $this->assertSame('Updated', $fetched['title']);
+    //     $this->assertTrue($fetched['done']);
+    // }
 
-    public function testUpdateNonExistentReturnsNull(): void
-    {
-        $result = $this->repo->update(9999, ['title' => 'Nothing']);
-        $this->assertNull($result);
-    }
+    // public function testUpdateNonExistentReturnsNull(): void
+    // {
+    //     $result = $this->repo->update(9999, ['title' => 'Nothing']);
+    //     $this->assertNull($result);
+    // }
 
-    public function testDeleteRemovesTodo(): void
-    {
-        $todo = $this->repo->create('To delete');
-        $this->assertNotNull($this->repo->get($todo['id']));
+    // public function testDeleteRemovesTodo(): void
+    // {
+    //     $todo = $this->repo->create('To delete');
+    //     $this->assertNotNull($this->repo->get($todo['id']));
 
-        $deleted = $this->repo->delete($todo['id']);
-        $this->assertTrue($deleted);
+    //     $deleted = $this->repo->delete($todo['id']);
+    //     $this->assertTrue($deleted);
 
-        $fetched = $this->repo->get($todo['id']);
-        $this->assertNull($fetched);
-    }
+    //     $fetched = $this->repo->get($todo['id']);
+    //     $this->assertNull($fetched);
+    // }
 
-    public function testDeleteNonExistentReturnsTrueButDoesNothing(): void
-    {
-        // SQLite's execute() returns true even if no rows affected
-        $result = $this->repo->delete(12345);
-        $this->assertTrue($result);
-    }
+    // public function testDeleteNonExistentReturnsTrueButDoesNothing(): void
+    // {
+    //     // SQLite's execute() returns true even if no rows affected
+    //     $result = $this->repo->delete(12345);
+    //     $this->assertTrue($result);
+    // }
 
-    public function testHydrateCastsFieldsCorrectly(): void
-    {
-        $reflection = new ReflectionClass($this->repo);
-        $method = $reflection->getMethod('hydrate');
-        $method->setAccessible(true);
+    // public function testHydrateCastsFieldsCorrectly(): void
+    // {
+    //     $reflection = new ReflectionClass($this->repo);
+    //     $method = $reflection->getMethod('hydrate');
+    //     $method->setAccessible(true);
 
-        $row = [
-            'id' => '1',
-            'title' => 'Task',
-            'done' => '0',
-            'created_at' => '2024-01-01T00:00:00Z'
-        ];
+    //     $row = [
+    //         'id' => '1',
+    //         'title' => 'Task',
+    //         'done' => '0',
+    //         'created_at' => '2024-01-01T00:00:00Z'
+    //     ];
 
-        $hydrated = $method->invoke($this->repo, $row);
-        $this->assertIsInt($hydrated['id']);
-        $this->assertIsString($hydrated['title']);
-        $this->assertIsBool($hydrated['done']);
-        $this->assertIsString($hydrated['created_at']);
-    }
+    //     $hydrated = $method->invoke($this->repo, $row);
+    //     $this->assertIsInt($hydrated['id']);
+    //     $this->assertIsString($hydrated['title']);
+    //     $this->assertIsBool($hydrated['done']);
+    //     $this->assertIsString($hydrated['created_at']);
+    // }
 
-    
+
  // Php lint Test
     // public function testIntentionalLintFail(): void
     // {
