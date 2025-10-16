@@ -15,6 +15,9 @@
         <include>
             <file>TodoRepository.php</file>
         </include>
+            <exclude>
+        <directory>backend/coverage-html</directory>
+    </exclude>
     </source>
 
     <coverage>
