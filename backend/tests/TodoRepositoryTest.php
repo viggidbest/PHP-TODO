@@ -28,7 +28,6 @@ final class TodoRepositoryTest extends TestCase
         $this->assertSame($todo['title'], $fetched['title']);
     }
     
-
     // public function testAllReturnsAllTodosInDescendingOrder(): void
     // {
     //     $first = $this->repo->create('First task');
