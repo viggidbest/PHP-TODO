@@ -8,6 +8,7 @@ final class TodoRepository {
         $this->migrate();
 
     }
+    
     private function migrate(): void {
         $this->pdo->exec('CREATE TABLE IF NOT EXISTS todos (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
