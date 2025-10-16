@@ -1,11 +1,10 @@
 import { readFileSync, existsSync } from 'fs'
 
-const coveragePath = './coverage/coverage-summary.json'
+const coveragePath = '.frontend/coverage/coverage-summary.json'
 if (!existsSync(coveragePath)) {
   console.error('⚠️ Coverage summary not found at:', coveragePath)
   process.exit(1)
 }
-
 let coverageSummary
 try {
   coverageSummary = JSON.parse(readFileSync(coveragePath, 'utf-8'))
