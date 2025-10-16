@@ -191,8 +191,8 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           command: code test
-          args: --severity-threshold=medium
-          project: frontend
+          args: --severity-threshold=medium --all-projects
+          directory: frontend/src
 
       # - name: Upload Frontend Test Report
       #   uses: actions/upload-artifact@v4
