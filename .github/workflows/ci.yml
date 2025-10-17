@@ -224,13 +224,13 @@ jobs:
     runs-on: ubuntu-latest
     name: Deploy to Production
     if: >
+      always() &&
       github.ref == 'refs/heads/main' &&
       (
         (needs.backend.result == 'success' && needs.frontend.result == 'skipped') ||
         (needs.backend.result == 'skipped' && needs.frontend.result == 'success') ||
         (needs.backend.result == 'success' && needs.frontend.result == 'success')
       )
-
     steps:
       - name: Deploy Placeholder
-        run: echo "🚀 Deploying PHP-TODO to production…"
+        run: echo "🚀 Deploying PHP-TODO to production… (DEMO SUCCESS)"
