@@ -81,7 +81,7 @@ describe('App.vue TODO App', () => {
   })
 
    //This block to fail the pipeline
-  test("intentional failure test", () => {
-    expect(1 + 1).toBe(3); // This will always fail
-  });
+  // test("intentional failure test", () => {
+  //   expect(1 + 1).toBe(3); // This will always fail
+  // });
 })
