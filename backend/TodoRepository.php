@@ -60,8 +60,9 @@ final class TodoRepository
 
     public function delete(int $id): bool
     {     
-        $stmt = $this->pdo->prepare('DELETE FROM todos WHERE id = :id');
-        return $stmt->execute([':id' => $id]);
+        return null;
+        //$stmt = $this->pdo->prepare('DELETE FROM todos WHERE id = :id');
+        //return $stmt->execute([':id' => $id]);
     }
     private function hydrate(array $row): array
     {

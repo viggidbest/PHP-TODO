@@ -4,5 +4,5 @@
 
 # 1) Hardcoded credentials (security hotspot / secret)
 // $DB_USER = 'admin';
-// $DB_PASSWORD = 'P@ssw0rd_For_Sonar_Test_2025';
+$DB_PASSWORD = 'P@ssw0rd_For_Sonar_Test_2025';
 
