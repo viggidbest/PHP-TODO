@@ -63,25 +63,6 @@ final class TodoRepositoryTest extends TestCase
         $this->assertNull($result);
     }
 
-  /* public function testDeleteRemovesTodo(): void
-    {
-        $todo = $this->repo->create('To delete');
-        $this->assertNotNull($this->repo->get($todo['id']));
-
-        $deleted = $this->repo->delete($todo['id']);
-        $this->assertTrue($deleted);
-
-        $fetched = $this->repo->get($todo['id']);
-        $this->assertNull($fetched);
-    }
-
-    public function testDeleteNonExistentReturnsTrueButDoesNothing(): void
-    {
-        // SQLite's execute() returns true even if no rows affected
-        $result = $this->repo->delete(12345);
-        $this->assertTrue($result);
-    }*/
-
     public function testHydrateCastsFieldsCorrectly(): void
     {
         $reflection = new ReflectionClass($this->repo);
@@ -103,25 +84,11 @@ final class TodoRepositoryTest extends TestCase
     } 
 
 
- // Php lint Test
-    // public function testIntentionalLintFail(): void
-    // {
-    //     $x = 5  // <-- missing semicolon
-    // }
 
-//Test case fail check
-  /* public function testThatFails(): void
-    {
-        // This test is designed to fail on purpose
-        $expected = 42;
-        $actual = 43;
-        $this->assertSame($expected, $actual, 'This test intentionally fails for CI verification.');
-    } */
-
-   /* public function testDeleteNonExistentReturnsTrueButDoesNothing2(): void
+    public function testDeleteNonExistentReturnsTrueButDoesNothing2(): void
     {
         // SQLite's execute() returns true even if no rows affected
-        $result = $this->repo->delete(12345);
-        $this->assertTrue($result);
-    }*/
+       // $result = $this->repo->delete(12345);
+        //$this->assertTrue($result);
+    }
 }
