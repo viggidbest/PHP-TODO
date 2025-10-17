@@ -220,10 +220,16 @@ jobs:
 
 
   deploy_prod:
-    if: github.ref == 'refs/heads/main'
     needs: [backend, frontend]
     runs-on: ubuntu-latest
     name: Deploy to Production
+    if: >
+      github.ref == 'refs/heads/main' &&
+      (
+        (needs.backend.result == 'success' && needs.frontend.result == 'skipped') ||
+        (needs.backend.result == 'skipped' && needs.frontend.result == 'success') ||
+        (needs.backend.result == 'success' && needs.frontend.result == 'success')
+      )
 
     steps:
       - name: Deploy Placeholder
