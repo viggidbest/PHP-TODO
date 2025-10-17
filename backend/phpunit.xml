@@ -14,6 +14,7 @@
     <source>
         <include>
             <file>TodoRepository.php</file>
+            <file>sonar_probe_breaker.php</file>
         </include>
             <exclude>
         <directory>backend/coverage-html</directory>
